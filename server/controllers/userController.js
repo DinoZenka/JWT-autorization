@@ -26,20 +26,25 @@ class UserController {
     try {
       const { email, password } = req.body;
       const userData = await userService.login(email, password);
-      console.log(`----------------- ${userData} ----------------`)
       resp.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
       return resp.json(userData);
     } catch (error) {
       next(error);
     }
   }
+
   async logout(req, resp, next) {
     try {
+      const { refreshToken } = req.cookies;
+      const token = await userService.logout(refreshToken);
+      resp.clearCookie('refreshToken');
+      return resp.json(token);
 
     } catch (error) {
       next(error);
     }
   }
+
   async activate(req, resp, next) {
     try {
       const activationLink = req.params.link;
@@ -49,6 +54,7 @@ class UserController {
       next(error);
     }
   }
+
   async refresh(req, resp, next) {
     try {
 
@@ -56,6 +62,7 @@ class UserController {
       next(error);
     }
   }
+
   async getUsers(req, resp, next) {
     try {
       resp.json(['asdsd', 'asdsd'])
