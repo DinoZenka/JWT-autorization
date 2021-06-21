@@ -13,7 +13,7 @@ class UserController {
 
       return resp.json(userData);
     } catch (error) {
-      console.log(error)
+      next(error);
     }
   }
 
@@ -21,14 +21,14 @@ class UserController {
     try {
 
     } catch (error) {
-
+      next(error);
     }
   }
   async logout(req, resp, next) {
     try {
 
     } catch (error) {
-
+      next(error);
     }
   }
   async activate(req, resp, next) {
@@ -37,21 +37,21 @@ class UserController {
       await userService.activate(activationLink);
       return resp.redirect(process.env.CLIENT_URL);
     } catch (error) {
-      console.log(error)
+      next(error);
     }
   }
   async refresh(req, resp, next) {
     try {
 
     } catch (error) {
-
+      next(error);
     }
   }
   async getUsers(req, resp, next) {
     try {
       resp.json(['asdsd', 'asdsd'])
     } catch (error) {
-
+      next(error);
     }
   }
 
