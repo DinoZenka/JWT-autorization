@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AuthResponce } from '../models/responce/AuthResponce';
+import { AuthResponse } from '../models/responce/AuthResponse';
 
 export const API_URL = 'http://localhost:3030/api'; 
 
@@ -14,21 +14,25 @@ api.interceptors.request.use((config)=>{
 });
 
 api.interceptors.response.use((config)=>{
+  console.log('--------------RETURN CONFIG------------------')
   return config;
-}, async (error)=>{
+},  ( async (error)=>{
+  console.log('--------------ERROR --------------------')
+  console.log(error);
+
   const originalRequest = error.config;
-  if(error.responce.staus === 401 && originalRequest && !originalRequest._isRetry){
+  if(error.response.status == 401 && originalRequest && !originalRequest._isRetry){
     originalRequest._isRetry = true;
     try {
-      const responce = await axios.get<AuthResponce>(`${API_URL}\refresh`, {withCredentials: true});
-      localStorage.setItem('token', responce.data.accessToken);
+      const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true});
+      localStorage.setItem('token', response.data.accessToken);
       return api.request(originalRequest);
     } catch (error) {
       console.log(error)
     }
   }
   throw error;
-});
+}));
 
 export default api;
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { makeAutoObservable } from "mobx";
 import { API_URL } from "../http";
-import { AuthResponce } from "../models/responce/AuthResponce";
+import { AuthResponse } from "../models/responce/AuthResponse";
 import { IUSer } from "../models/User";
 import AuthService from "../services/AuthService";
 
@@ -66,7 +66,7 @@ export default class Store {
   async checkAuth() {
     this.setLoading(true);
     try {
-      const responce = await axios.get<AuthResponce>(`${API_URL}/refresh`, {withCredentials: true});
+      const responce = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true});
       localStorage.setItem('token', responce.data.accessToken);
       this.setAuth(true);
       this.setUser(responce.data.user);
