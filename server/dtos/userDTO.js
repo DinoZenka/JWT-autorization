@@ -1,11 +1,11 @@
 module.exports = class UserDTO {    // DTO - data transfer object
   id;
-  mail;
+  email;
   isActivated;
 
   constructor(model) {
     this.id = model._id;
-    this.mail = model.mail;
+    this.email = model.email;
     this.isActivated = model.isActivated;
   }
 }

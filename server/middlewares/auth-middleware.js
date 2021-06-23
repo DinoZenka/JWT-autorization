@@ -3,8 +3,8 @@ const tokenSevice = require('../service/tokenService');
 
 module.exports = function (req, resp, next) {
   try {
+    const authHeader = req.headers.autorization;
 
-    const authHeader = req.headers.authorization;
     if (!authHeader) {
       return next(ApiError.unAutorizedError());
     }
@@ -13,7 +13,6 @@ module.exports = function (req, resp, next) {
       return next(ApiError.unAutorizedError());
     }
     const userData = tokenSevice.validateAccessToken(accessToken)
-
     if (!userData) {
       return next(ApiError.unAutorizedError());
     }
@@ -22,7 +21,6 @@ module.exports = function (req, resp, next) {
     next();
 
   } catch (error) {
-    console.log(`------------------4------------------------`)
     return next(ApiError.unAutorizedError())
   }
 }
